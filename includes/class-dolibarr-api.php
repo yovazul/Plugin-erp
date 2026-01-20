@@ -13,8 +13,15 @@ class Dolibarr_API {
     private $api_key;
     
     public function __construct() {
-        $this->api_url = rtrim(get_option('dcf_dolibarr_url'), '/');
-        $this->api_key = get_option('dcf_dolibarr_api_key');
+        $this->api_url = rtrim(get_option('dcf_dolibarr_url', ''), '/');
+        $this->api_key = get_option('dcf_dolibarr_api_key', '');
+    }
+    
+    /**
+     * Validar configuración de la API
+     */
+    public function is_configured() {
+        return !empty($this->api_url) && !empty($this->api_key) && filter_var($this->api_url, FILTER_VALIDATE_URL);
     }
     
     /**
@@ -87,6 +94,20 @@ class Dolibarr_API {
      * Realizar petición HTTP a la API de Dolibarr
      */
     private function make_request($method, $url, $body = array()) {
+        // Validar URL
+        if (empty($url) || !filter_var($url, FILTER_VALIDATE_URL)) {
+            return array(
+                'success' => false,
+                'error' => __('No se ha facilitado una URL válida.', 'dolibarr-contact-form') . ' URL: ' . $url
+            );
+        }
+        
+        // Log para debugging
+        error_log('DCF API Request: ' . $method . ' ' . $url);
+        if (!empty($body)) {
+            error_log('DCF API Body: ' . json_encode($body));
+        }
+        
         $args = array(
             'method' => $method,
             'headers' => array(
@@ -116,15 +137,31 @@ class Dolibarr_API {
         $data = json_decode($body, true);
         
         if ($status_code >= 200 && $status_code < 300) {
+            // Dolibarr devuelve el ID directamente como número cuando crea un recurso
             return array(
                 'success' => true,
-                'data' => $data
+                'data' => $data,
+                'id' => is_numeric($data) ? (int)$data : (isset($data['id']) ? $data['id'] : null)
             );
         } else {
+            $error_message = __('Error desconocido', 'dolibarr-contact-form');
+            
+            if (isset($data['error']['message'])) {
+                $error_message = $data['error']['message'];
+            } elseif (isset($data['error'])) {
+                $error_message = is_string($data['error']) ? $data['error'] : json_encode($data['error']);
+            } elseif (!empty($body)) {
+                $error_message = $body;
+            }
+            
+            // Log del error para debugging
+            error_log('Dolibarr API Error: ' . $error_message . ' (Status: ' . $status_code . ')');
+            
             return array(
                 'success' => false,
-                'error' => isset($data['error']) ? $data['error']['message'] : __('Error desconocido', 'dolibarr-contact-form'),
-                'status_code' => $status_code
+                'error' => $error_message,
+                'status_code' => $status_code,
+                'raw_response' => $body
             );
         }
     }
