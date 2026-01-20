@@ -44,8 +44,19 @@ function dcf_process_form() {
     
     // Validar que la API esté configurada
     if (!$api->is_configured()) {
+        $url = get_option('dcf_dolibarr_url', '');
+        $key = get_option('dcf_dolibarr_api_key', '');
+        
+        $debug_info = '';
+        if (current_user_can('manage_options')) {
+            $debug_info = '<br><small>';
+            $debug_info .= 'URL configurada: ' . (!empty($url) ? '✓' : '✗') . '<br>';
+            $debug_info .= 'API Key configurada: ' . (!empty($key) ? '✓' : '✗');
+            $debug_info .= '</small>';
+        }
+        
         wp_send_json_error(array(
-            'message' => __('El plugin no está configurado correctamente. Por favor, configura la URL de Dolibarr y la API Key en Ajustes → Dolibarr Form.', 'dolibarr-contact-form')
+            'message' => __('El plugin no está configurado correctamente. Por favor, configura la URL de Dolibarr y la API Key en Ajustes → Dolibarr Form.', 'dolibarr-contact-form') . $debug_info
         ));
     }
     

@@ -17,6 +17,27 @@ if (!defined('ABSPATH')) {
         </div>
     <?php endif; ?>
     
+    <?php
+    // Mostrar estado de configuración
+    $url = get_option('dcf_dolibarr_url', '');
+    $key = get_option('dcf_dolibarr_api_key', '');
+    $is_configured = !empty($url) && !empty($key);
+    
+    if ($is_configured) {
+        echo '<div class="notice notice-info"><p>';
+        echo '<strong>✓ Estado:</strong> Plugin configurado correctamente.<br>';
+        echo '<strong>URL:</strong> ' . esc_html($url) . '<br>';
+        echo '<strong>API Key:</strong> ' . str_repeat('*', strlen($key)) . ' (' . strlen($key) . ' caracteres)';
+        echo '</p></div>';
+    } else {
+        echo '<div class="notice notice-warning"><p>';
+        echo '<strong>⚠ Estado:</strong> El plugin necesita configuración.<br>';
+        if (empty($url)) echo '• URL de Dolibarr: <strong>No configurada</strong><br>';
+        if (empty($key)) echo '• API Key: <strong>No configurada</strong>';
+        echo '</p></div>';
+    }
+    ?>
+    
     <form method="post" action="options.php">
         <?php
         settings_fields('dcf_settings_group');
@@ -34,9 +55,11 @@ if (!defined('ABSPATH')) {
                            name="dcf_dolibarr_url" 
                            value="<?php echo esc_attr(get_option('dcf_dolibarr_url')); ?>" 
                            class="regular-text"
-                           placeholder="https://tudominio.com/dolibarr">
+                           placeholder="https://tudominio.com/dolibarr"
+                           required>
                     <p class="description">
-                        <?php _e('URL base de tu instalación de Dolibarr (sin barra final)', 'dolibarr-contact-form'); ?>
+                        <?php _e('URL base de tu instalación de Dolibarr (sin barra final)', 'dolibarr-contact-form'); ?><br>
+                        <strong>Ejemplo:</strong> <code>https://tudominio.com/dolibarr</code>
                     </p>
                 </td>
             </tr>
@@ -51,9 +74,13 @@ if (!defined('ABSPATH')) {
                            name="dcf_dolibarr_api_key" 
                            value="<?php echo esc_attr(get_option('dcf_dolibarr_api_key')); ?>" 
                            class="regular-text"
-                           placeholder="xxxxxxxxxxxxxxxxxxxxxxxxx">
+                           placeholder="xxxxxxxxxxxxxxxxxxxxxxxxx"
+                           required>
                     <p class="description">
-                        <?php _e('API Key generada desde Dolibarr (Usuario → API Keys)', 'dolibarr-contact-form'); ?>
+                        <?php _e('API Key generada desde Dolibarr (Usuario → API Keys)', 'dolibarr-contact-form'); ?><br>
+                        <?php if (!empty(get_option('dcf_dolibarr_api_key'))): ?>
+                            <span style="color: green;">✓ API Key configurada (<?php echo strlen(get_option('dcf_dolibarr_api_key')); ?> caracteres)</span>
+                        <?php endif; ?>
                     </p>
                 </td>
             </tr>

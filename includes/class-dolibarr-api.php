@@ -13,15 +13,28 @@ class Dolibarr_API {
     private $api_key;
     
     public function __construct() {
-        $this->api_url = rtrim(get_option('dcf_dolibarr_url', ''), '/');
-        $this->api_key = get_option('dcf_dolibarr_api_key', '');
+        $raw_url = get_option('dcf_dolibarr_url', '');
+        $raw_key = get_option('dcf_dolibarr_api_key', '');
+        
+        // Limpiar espacios en blanco
+        $this->api_url = rtrim(trim($raw_url), '/');
+        $this->api_key = trim($raw_key);
     }
     
     /**
      * Validar configuración de la API
      */
     public function is_configured() {
-        return !empty($this->api_url) && !empty($this->api_key) && filter_var($this->api_url, FILTER_VALIDATE_URL);
+        $is_valid = !empty($this->api_url) && !empty($this->api_key);
+        
+        // Log de debugging
+        if (!$is_valid) {
+            error_log('DCF Configuration Error:');
+            error_log('  URL: ' . ($this->api_url ?: '[vacío]'));
+            error_log('  API Key: ' . ($this->api_key ? '[configurada]' : '[vacía]'));
+        }
+        
+        return $is_valid;
     }
     
     /**
