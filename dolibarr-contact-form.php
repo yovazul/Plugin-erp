@@ -57,6 +57,7 @@ class Dolibarr_Contact_Form {
         if (is_admin()) {
             add_action('admin_menu', array($this, 'add_admin_menu'));
             add_action('admin_init', array($this, 'register_settings'));
+            add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'add_settings_link'));
         }
         
         // Registrar scripts y estilos
@@ -66,6 +67,15 @@ class Dolibarr_Contact_Form {
         add_action('wp_ajax_dcf_submit_form', array($this, 'handle_form_submission'));
         add_action('wp_ajax_nopriv_dcf_submit_form', array($this, 'handle_form_submission'));
         add_action('wp_ajax_dcf_test_connection', array($this, 'test_connection'));
+    }
+    
+    /**
+     * Agregar enlace de configuración en la lista de plugins
+     */
+    public function add_settings_link($links) {
+        $settings_link = '<a href="' . admin_url('options-general.php?page=dolibarr-contact-form') . '">' . __('Configuración', 'dolibarr-contact-form') . '</a>';
+        array_unshift($links, $settings_link);
+        return $links;
     }
     
     private function includes() {
