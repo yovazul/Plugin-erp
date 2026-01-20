@@ -1,0 +1,161 @@
+/* Estilos para el formulario de contacto de Dolibarr */
+
+.dcf-contact-form-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dcf-form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dcf-form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.dcf-form-group {
+    margin-bottom: 20px;
+}
+
+.dcf-col-half {
+    flex: 1;
+    min-width: 250px;
+}
+
+.dcf-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.dcf-required {
+    color: #e74c3c;
+}
+
+.dcf-optional {
+    font-weight: normal;
+    color: #999;
+    font-size: 12px;
+}
+
+.dcf-input,
+.dcf-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.dcf-input:focus,
+.dcf-textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.dcf-textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.dcf-submit-btn {
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.dcf-submit-btn:hover {
+    background-color: #2980b9;
+}
+
+.dcf-submit-btn:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+#dcf-form-messages {
+    margin-top: 20px;
+}
+
+.dcf-message {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    animation: slideIn 0.3s ease;
+}
+
+.dcf-message-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.dcf-message-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.dcf-loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.6s linear infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dcf-form-row {
+        flex-direction: column;
+    }
+    
+    .dcf-col-half {
+        min-width: 100%;
+    }
+    
+    .dcf-contact-form-wrapper {
+        padding: 10px;
+    }
+    
+    .dcf-form {
+        padding: 20px;
+    }
+}
