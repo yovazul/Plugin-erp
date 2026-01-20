@@ -156,6 +156,23 @@ El plugin proporciona mensajes de error claros y amigables:
 - Escape de outputs en templates
 - Validación de permisos de WordPress
 
+### Nota Importante sobre Seguridad
+
+**API Key y Configuración**: Por defecto, este plugin tiene la API Key y la URL base hardcodeadas según los requisitos del proyecto. Para un entorno de producción, considera:
+
+1. **Proteger los logs**: Los archivos de log pueden contener información sensible. Asegúrate de que no sean accesibles públicamente.
+   
+2. **Modo Debug**: En producción, establece `DCF_DEBUG_MODE` a `false` en el archivo principal para reducir el logging de datos sensibles:
+   ```php
+   define('DCF_DEBUG_MODE', false);
+   ```
+
+3. **Permisos del archivo de log**: Asegúrate de que el archivo de log tenga permisos apropiados (recomendado: 640 o 600)
+
+4. **Rotación de logs**: El plugin rotará automáticamente los logs cuando superen 5MB, pero considera implementar una limpieza programada de backups antiguos.
+
+5. **HTTPS**: Asegúrate de que tanto tu sitio WordPress como tu instalación de Dolibarr usen HTTPS para proteger los datos en tránsito.
+
 ## Desarrollo
 
 ### Personalización

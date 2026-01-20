@@ -51,7 +51,9 @@ class DCF_Dolibarr_API {
         }
         
         DCF_Logger::log("API Request: $method $url");
-        DCF_Logger::log("Request Data: " . json_encode($data));
+        if (defined('DCF_DEBUG_MODE') && DCF_DEBUG_MODE) {
+            DCF_Logger::log("Request Data: " . json_encode($data));
+        }
         
         $response = wp_remote_request($url, $args);
         
@@ -64,7 +66,9 @@ class DCF_Dolibarr_API {
         $response_body = wp_remote_retrieve_body($response);
         
         DCF_Logger::log("API Response Code: $response_code");
-        DCF_Logger::log("API Response Body: $response_body");
+        if (defined('DCF_DEBUG_MODE') && DCF_DEBUG_MODE) {
+            DCF_Logger::log("API Response Body: $response_body");
+        }
         
         if ($response_code < 200 || $response_code >= 300) {
             $error_message = 'Error en la API de Dolibarr';

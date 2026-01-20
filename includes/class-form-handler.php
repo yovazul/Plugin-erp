@@ -40,7 +40,11 @@ class DCF_Form_Handler {
             }
             
             // Guardar datos en el log antes de procesarlos (para prevenir pérdida de datos)
-            DCF_Logger::log('Procesando formulario: ' . json_encode($form_data));
+            if (defined('DCF_DEBUG_MODE') && DCF_DEBUG_MODE) {
+                DCF_Logger::log('Procesando formulario: ' . json_encode($form_data));
+            } else {
+                DCF_Logger::log('Procesando formulario de: ' . $form_data['email']);
+            }
             
             $contact_data = array(
                 'nombre' => $form_data['nombre'],

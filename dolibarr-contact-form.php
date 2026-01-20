@@ -23,6 +23,11 @@ define('DCF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('DCF_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('DCF_LOG_FILE', WP_CONTENT_DIR . '/dolibarr-contact-form.log');
 
+// Modo debug: establecer a false en producción para reducir logging de datos sensibles
+if (!defined('DCF_DEBUG_MODE')) {
+    define('DCF_DEBUG_MODE', false);
+}
+
 // Incluir archivos necesarios
 require_once DCF_PLUGIN_DIR . 'includes/class-dolibarr-api.php';
 require_once DCF_PLUGIN_DIR . 'includes/class-form-handler.php';
