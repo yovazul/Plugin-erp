@@ -91,6 +91,51 @@
     cursor: not-allowed;
 }
 
+/* Estilos para el checkbox de privacidad */
+.dcf-privacy-group {
+    margin-bottom: 25px;
+}
+
+.dcf-checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.dcf-checkbox-label input[type="checkbox"] {
+    margin-right: 10px;
+    margin-top: 3px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.dcf-checkbox-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.dcf-checkbox-text a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.dcf-checkbox-text a:hover {
+    text-decoration: underline;
+}
+
+/* Campo honeypot - debe ser invisible */
+.dcf-hp-field {
+    position: absolute !important;
+    left: -9999px !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
 #dcf-form-messages {
     margin-top: 20px;
 }

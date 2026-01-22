@@ -85,6 +85,29 @@ $show_company = isset($atts['show_company']) && $atts['show_company'] === 'yes';
                       required></textarea>
         </div>
         
+        <!-- Campo honeypot anti-spam (campo oculto) -->
+        <div class="dcf-hp-field" style="position:absolute;left:-9999px;">
+            <label for="dcf-website">Website</label>
+            <input type="text" id="dcf-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+        
+        <div class="dcf-form-group dcf-privacy-group">
+            <label class="dcf-checkbox-label">
+                <input type="checkbox" 
+                       id="dcf-privacy" 
+                       name="privacy_policy" 
+                       value="1" 
+                       required>
+                <span class="dcf-checkbox-text">
+                    <?php _e('Acepto la', 'dolibarr-contact-form'); ?> 
+                    <a href="https://intetron.co/politica-de-privacidad/" target="_blank" rel="noopener noreferrer">
+                        <?php _e('política de tratamiento de datos', 'dolibarr-contact-form'); ?>
+                    </a> 
+                    <span class="dcf-required">*</span>
+                </span>
+            </label>
+        </div>
+        
         <div class="dcf-form-group">
             <button type="submit" class="dcf-submit-btn">
                 <?php _e('Enviar Mensaje', 'dolibarr-contact-form'); ?>

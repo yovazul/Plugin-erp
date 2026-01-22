@@ -47,8 +47,11 @@ class Dolibarr_API {
             'name' => sanitize_text_field($data['company_name']),
             'email' => sanitize_email($data['email']),
             'phone' => sanitize_text_field($data['phone']),
-            'client' => 1, // 1 = cliente
-            'note_public' => sanitize_textarea_field($data['message'])
+            'client' => 2, // 2 = cliente potencial (prospect)
+            'note_public' => sanitize_textarea_field($data['message']),
+            'array_options' => array(
+                'options_origen' => 1 // Campo personalizado "origen" con valor 1
+            )
         );
         
         return $this->make_request('POST', $endpoint, $body);

@@ -8,6 +8,14 @@ if (!defined('ABSPATH')) {
 }
 
 function dcf_process_form() {
+    // Protección anti-spam con honeypot
+    if (!empty($_POST['website'])) {
+        // Campo honeypot completado - probable spam
+        wp_send_json_error(array(
+            'message' => __('Error al procesar el formulario.', 'dolibarr-contact-form')
+        ));
+    }
+    
     // Validar campos requeridos
     $required_fields = array('firstname', 'lastname', 'email', 'phone', 'message');
     $errors = array();
@@ -16,6 +24,11 @@ function dcf_process_form() {
         if (empty($_POST[$field])) {
             $errors[] = sprintf(__('El campo %s es requerido', 'dolibarr-contact-form'), $field);
         }
+    }
+    
+    // Validar aceptación de política de privacidad
+    if (empty($_POST['privacy_policy']) || $_POST['privacy_policy'] !== '1') {
+        $errors[] = __('Debes aceptar la política de tratamiento de datos para continuar', 'dolibarr-contact-form');
     }
     
     // Validar email
