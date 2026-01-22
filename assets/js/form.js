@@ -25,7 +25,9 @@ jQuery(document).ready(function($) {
             email: $('#dcf-email').val(),
             phone: $('#dcf-phone').val(),
             message: $('#dcf-message').val(),
-            company_name: $('#dcf-company-name').val() || ''
+            company_name: $('#dcf-company-name').val() || '',
+            privacy_policy: $('#dcf-privacy').is(':checked') ? '1' : '',
+            website: $('#dcf-website').val() || ''
         };
         
         // Enviar vía AJAX
