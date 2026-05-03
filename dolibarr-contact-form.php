@@ -40,10 +40,15 @@ class Dolibarr_Contact_Form {
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
         
         // Inicializar el plugin
-        add_action('plugins_loaded', array($this, 'init'));
+        add_action('init', array($this, 'init'), 20);
     }
     
     public function init() {
+        static $initialized = false;
+        if ($initialized) {
+            return;
+        }
+        $initialized = true;
         // Cargar traducciones
         load_plugin_textdomain('dolibarr-contact-form', false, dirname(plugin_basename(__FILE__)) . '/languages');
         
