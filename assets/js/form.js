@@ -37,6 +37,12 @@ jQuery(document).ready(function($) {
             data: formData,
             success: function(response) {
                 if (response.success) {
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        event: 'form_submit',
+                        form_name: 'contacto_dolibarr'
+                    });
+
                     // Mostrar mensaje de éxito
                     messagesDiv.html(
                         '<div class="dcf-message dcf-message-success">' + 
