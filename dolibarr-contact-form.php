@@ -3,7 +3,7 @@
  * Plugin Name: Dolibarr Contact Form
  * Plugin URI: https://github.com/yovazul/Plugin-erp
  * Description: Formulario de contacto que envía datos directamente a Dolibarr ERP
- * Version: 1.1.1
+ * Version: 1.1.2
  * Author: YovaZul
  * Author URI: https://github.com/yovazul
  * License: GPL v2 or later
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Definir constantes
-define('DCF_VERSION', '1.1.1');
+define('DCF_VERSION', '1.1.2');
 define('DCF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('DCF_PLUGIN_URL', plugin_dir_url(__FILE__));
 
@@ -40,10 +40,15 @@ class Dolibarr_Contact_Form {
         register_deactivation_hook(__FILE__, array($this, 'deactivate'));
         
         // Inicializar el plugin
-        add_action('plugins_loaded', array($this, 'init'));
+        add_action('init', array($this, 'init'), 20);
     }
     
     public function init() {
+        static $initialized = false;
+        if ($initialized) {
+            return;
+        }
+        $initialized = true;
         // Cargar traducciones
         load_plugin_textdomain('dolibarr-contact-form', false, dirname(plugin_basename(__FILE__)) . '/languages');
         
